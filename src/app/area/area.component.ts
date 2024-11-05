@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';  
 import { CommonModule } from '@angular/common'; 
-import { ListService } from '../list.service';  // Import the service
+import { ListService } from '../list.service';  // Importation du service
 
 @Component({
   selector: 'app-area',
@@ -18,53 +18,58 @@ export class AreaComponent {
   colors: string[] = ['blue', 'green', 'red'];  
   buttonLabel: string = 'Random'; 
   random: boolean = false; 
-  showItems: boolean = true; // Track visibility of the list
+  showItems: boolean = true; // Suivre la visibilité de la liste
+  feedbackMessage: string = ''; // Message de retour
 
-  constructor(private listService: ListService) {}  // Inject the service
+  constructor(private listService: ListService) {}  // Injection du service
 
-  // Delegate to the service to add an item
+  // Ajouter un élément via le service
   addItem(): void {
-    this.listService.addItem(this.inputValue);
-    this.inputValue = '';  // Clear the input
+    if (this.listService.addItem(this.inputValue)) {
+      this.feedbackMessage = 'Élément ajouté avec succès!';
+    } else {
+      this.feedbackMessage = 'Veuillez entrer un élément valide.';
+    }
   }
 
-  // Delegate to the service to remove an item
+  // Supprimer le dernier élément via le service
   suppress(): void {
     this.listService.removeItem();
+    this.feedbackMessage = 'Dernier élément supprimé.';
   }
 
-  // Get items from the service
+  // Obtenir les éléments du service
   get items(): string[] {
     return this.listService.getItems();
   }
 
-  // Delegate to the service to sort items alphabetically (A-Z)
+  // Trier la liste (A-Z)
   sortList(): void {
     this.listService.sortItems();
   }
 
-  // Delegate to the service to sort items in reverse order (Z-A)
+  // Trier la liste en ordre inverse (Z-A)
   reverseSortList(): void {
     this.listService.reverseSortItems();
   }
 
-  // Delegate to the service to shuffle the list randomly
+  // Mélanger la liste
   shuffleList(): void {
     this.listService.shuffleItems();
   }
 
-  // Toggle visibility of the items list
+  // Basculer la visibilité des éléments
   toggleShowItems(): void {
     this.showItems = !this.showItems;
   }
 
-  // Toggle between random and cycle color modes
+  // Basculer entre les modes de couleurs aléatoires et cycliques
   toggleRandomColoring(): void {
     this.random = !this.random;
     this.buttonLabel = this.random ? 'Cycle' : 'Random';
   }
 
-  // Get color for each item
+  // Obtenir la couleur pour chaque élément
   getColor(index: number): string {
     if (this.random) {
       return this.colors[Math.floor(Math.random() * this.colors.length)];

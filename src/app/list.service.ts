@@ -1,45 +1,47 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',  // This makes the service available application-wide
+  providedIn: 'root',  // Ce service est disponible dans toute l'application
 })
 export class ListService {
-  private items: string[] = [];
+  private items: string[] = [];  // Tableau pour stocker les éléments
 
-  // Add item to the list
-  addItem(item: string): void {
+  // Ajouter un élément au tableau
+  addItem(item: string): boolean {
     if (item.trim()) {
       this.items.push(item.trim());
+      return true; // Indique que l'ajout a réussi
     }
+    return false; // Indique que l'ajout a échoué
   }
 
-  // Remove the last item
+  // Supprimer le dernier élément du tableau
   removeItem(): void {
     if (this.items.length > 0) {
-      this.items.pop();
+      this.items.pop(); // Supprime le dernier élément
     }
   }
 
-  // Get the current list of items
+  // Obtenir la liste actuelle des éléments
   getItems(): string[] {
-    return this.items;
+    return this.items; // Retourne le tableau d'éléments
   }
 
-  // Sort items alphabetically (A-Z)
+  // Trier les éléments par ordre alphabétique (A-Z)
   sortItems(): void {
-    this.items.sort((a, b) => a.localeCompare(b));
+    this.items.sort((a, b) => a.localeCompare(b)); // Trie le tableau
   }
 
-  // Sort items in reverse order (Z-A)
+  // Trier les éléments par ordre inverse (Z-A)
   reverseSortItems(): void {
-    this.items.sort((a, b) => b.localeCompare(a));
+    this.items.sort((a, b) => b.localeCompare(a)); // Trie le tableau en ordre inverse
   }
 
-  // Shuffle items randomly
+  // Mélanger les éléments aléatoirement
   shuffleItems(): void {
     for (let i = this.items.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [this.items[i], this.items[j]] = [this.items[j], this.items[i]];
+      [this.items[i], this.items[j]] = [this.items[j], this.items[i]]; // Échange les éléments
     }
   }
 }

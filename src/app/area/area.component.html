@@ -7,7 +7,7 @@
     [(ngModel)]="inputValue"  
     placeholder="Entrez un élément" 
   /> <br>
-  <button (click)="addItem()">Ajouter un élément</button> 
+  <button (click)="addItem()" [disabled]="!inputValue.trim()">Ajouter un élément</button> 
   <button (click)="suppress()">Supprimer un élément</button>
   
   <button (click)="sortList()">Trier la liste (A-Z)</button> <br>
@@ -15,6 +15,8 @@
   <button (click)="shuffleList()">Liste aléatoire</button>
   
   <button (click)="toggleShowItems()">{{ showItems ? 'Cacher les éléments' : 'Afficher les éléments' }}</button>
+
+  <div *ngIf="feedbackMessage">{{ feedbackMessage }}</div> <!-- Message de retour -->
 
   <ul *ngIf="showItems">
     <li *ngFor="let item of items; let i = index" [ngStyle]="{'color': getColor(i)}">
